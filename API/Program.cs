@@ -1,3 +1,6 @@
+using API.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<StoreContext>(opt => 
+{
+    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});  //how to add sqlite connection - see appsettings.Development.json
 
 var app = builder.Build();
 
@@ -16,10 +23,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseAuthorization(); // 
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapControllers(); //middleware to map controllers register our end points API uses this to know where to send requests
 
 app.Run();

@@ -16,6 +16,7 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 });  //how to add sqlite connection - see appsettings.Development.json
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericReopository<>));
 
 var app = builder.Build();
 

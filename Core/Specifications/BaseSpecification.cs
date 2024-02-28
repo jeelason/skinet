@@ -10,7 +10,7 @@ namespace Core.Specifications
 
         public BaseSpecification(Expression<Func<T, bool>> criteria)
         {
-            Criteria = criteria;
+            Criteria = criteria; //Criteria is whatever the expression is in ln 11
         }
 
         public Expression<Func<T, bool>> Criteria {get; }

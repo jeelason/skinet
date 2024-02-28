@@ -28,6 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseAuthorization(); // 
 
 app.MapControllers(); //middleware to map controllers register our end points API uses this to know where to send requests

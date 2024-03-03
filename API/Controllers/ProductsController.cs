@@ -6,10 +6,8 @@ using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase //derive from this class to get http endpoints
+{    
+    public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> _productsRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;

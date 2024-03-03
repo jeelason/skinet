@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
+[ApiExplorerSettings(IgnoreApi = true)]
 [Route("[controller]")] // GET https://localhost:5001/WeatherForecast (controller name is ignored ln 7)
 public class WeatherForecastController : ControllerBase
 {

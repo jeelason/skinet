@@ -28,9 +28,9 @@ namespace API.Controllers
         }
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(
-            string sort, int? brandId, int? typeId)
+            [FromQuery]ProductSpecParams productParams) //use FromQuery because we are now using an object; no bodies using httpGet request. cant automatically bind.
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification(sort, brandId, typeId);
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
 
             var products = await _productsRepo.ListAsync(spec);
 

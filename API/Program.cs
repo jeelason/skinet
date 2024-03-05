@@ -22,6 +22,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseStaticFiles();
+
+app.UseCors("CorsPolicy"); //matches exactly what we called it in ApplicationServicesExtension.cs
 app.UseAuthorization(); // 
 
 app.MapControllers(); //middleware to map controllers register our end points API uses this to know where to send requests

@@ -22,6 +22,8 @@ export class ShopService {
     params = params.append('sort', ShopParams.sort);
     params = params.append('pageIndex', ShopParams.pageNumber); //in ProductSpecParams.cs we called it pageIndex
     params = params.append('pageSize', ShopParams.pageSize);
+    if (ShopParams.search) params = params.append('search', ShopParams.search);
+    
 
     return this.http.get<Pagination<Product[]>>(this.baseUrl + 'products', {params});
   }

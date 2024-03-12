@@ -13,7 +13,9 @@ export class ProductDetailsComponent implements OnInit {
   product?: Product;
 
   constructor (private shopService: ShopService, private activatedRoute: ActivatedRoute,
-    private bcService: BreadcrumbService) {}
+    private bcService: BreadcrumbService) {
+      this.bcService.set('@productDetails', ' ') //notice the space added
+    }
 
   ngOnInit(): void {
     this.loadProduct();

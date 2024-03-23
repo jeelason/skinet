@@ -1,6 +1,9 @@
 using API.Extensions;
 using API.Middleware;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,18 +26,24 @@ app.UseSwaggerUI();
 app.UseStaticFiles();
 
 app.UseCors("CorsPolicy"); //matches exactly what we called it in ApplicationServicesExtension.cs
-app.UseAuthorization(); // 
+
+app.UseAuthentication();
+app.UseAuthorization(); //has to be in this order authen -> author
 
 app.MapControllers(); //middleware to map controllers register our end points API uses this to know where to send requests
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
+var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+var userManager = services.GetRequiredService<UserManager<AppUser>>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 try
 {
     await context.Database.MigrateAsync();
+    await identityContext.Database.MigrateAsync();
     await StoreContextSeed.SeedAsync(context);
+    await AppIdentityDbContextSeed.SeedUserAsync(userManager);
 }
 catch (Exception ex)
 {

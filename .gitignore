@@ -10,7 +10,7 @@
 #SQLite tmp
 *.db-shm
 *.db-wal
-
+*.db
 # User-specific files
 *.suo
 *.user

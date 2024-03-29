@@ -27,7 +27,7 @@ namespace Core.OrderAggregate
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         public string PaymentItentId { get; set; }
         public decimal GetTotal() {
-            return Subtotal + DeliveryMethod.Price
+            return Subtotal + DeliveryMethod.Price;
         }
     }
 }

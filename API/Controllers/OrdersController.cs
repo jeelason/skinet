@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using API.Dtos;
 using API.Errors;
 using API.Extensions;
@@ -25,7 +24,7 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Order>> CreateOrder(OrderDto orderDto)
         {
-            var email = HttpContext.User.RetreiveEmailFromPrincipal();
+            var email = HttpContext.User.RetrieveEmailFromPrincipal();
             var address = _mapper.Map<AddressDto, Address>(orderDto.ShipToAddress);
             var order = await _orderSerivce.CreateOrderAsync(email, orderDto.DeliveryMethodId, orderDto.BasketId, address);
 

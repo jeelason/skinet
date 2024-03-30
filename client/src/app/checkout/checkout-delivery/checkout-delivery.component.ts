@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { DeliveryMethod } from 'src/app/shared/models/deliverymethods';
+import { DeliveryMethod } from 'src/app/shared/models/deliveryMethod';
 import { CheckoutService } from '../checkout.service';
 
 @Component({

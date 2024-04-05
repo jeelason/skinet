@@ -1,4 +1,6 @@
+using System.Text.Json;
 using API.Errors;
+using API.Helpers;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Services;
@@ -46,6 +48,21 @@ namespace API.Extensions
                     return new BadRequestObjectResult(errorResponse);
                 };
             });
+            // Load API keys from ApiKeys.cs
+            var apiKeys = JsonSerializer.Deserialize<ApiKeys>(File.ReadAllText("ApiKeys.cs"));
+
+            // Build configuration
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            // Set API key in configuration
+            configuration["StripeSettings:PublishableKey"] = apiKeys.PublishableKey;
+            configuration["StripeSettings:SecretKey"] = apiKeys.SecretKey;
+            
+            services.AddSingleton<IConfiguration>(configuration);
 
             services.AddCors(opt => 
             {

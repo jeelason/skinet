@@ -10,7 +10,7 @@ namespace API.Controllers
 {
     public class PaymentsController : BaseApiController
     {
-        private const string WhSecret = "";
+        private const string WhSecret = "whsec_91a722412e984a20aa1db813feb886371f0d912bf727c454b887b946d37e9a7e";
         private readonly IPaymentService _paymentService;
         private readonly ILogger<PaymentsController> _logger;
         public PaymentsController(IPaymentService paymentService, ILogger<PaymentsController> logger)
@@ -28,7 +28,7 @@ namespace API.Controllers
             return basket;
         }
 
-        [HttpPost]
+        [HttpPost("webhook")]
         public async Task<ActionResult> StripeWebHook()
         {
             var json = await new StreamReader(Request.Body).ReadToEndAsync();

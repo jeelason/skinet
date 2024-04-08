@@ -24,6 +24,9 @@ export class CheckoutPaymentComponent implements OnInit {
   cardNumber?: StripeCardNumberElement;
   cardExpiry?: StripeCardExpiryElement;
   cardCvc?: StripeCardCvcElement;
+  cardNumberComplete = false;
+  cardExpiryComplete = false;
+  cardCvcComplete = false;
   cardErrors: any;
   stripeTestKey: string = 'pk_test_51P20omK2vuGvZ84FKVitm74UmND871SDmuNc5YxaHI6rezLfcGtCnOcnKeIGZuLNVE4OTNEEMbPdbpiHuTwQrVug00V53UGVz4';
   loading = false;
@@ -39,6 +42,7 @@ export class CheckoutPaymentComponent implements OnInit {
         this.cardNumber = elements.create('cardNumber');
         this.cardNumber.mount(this.cardNumberElement?.nativeElement);
         this.cardNumber.on('change', event => {
+          this.cardNumberComplete = event.complete;
           if (event.error) this.cardErrors = event.error.message;
           else this.cardErrors = null;
         })
@@ -46,6 +50,7 @@ export class CheckoutPaymentComponent implements OnInit {
         this.cardExpiry = elements.create('cardExpiry');
         this.cardExpiry.mount(this.cardExpiryElement?.nativeElement);
         this.cardExpiry.on('change', event => {
+          this.cardExpiryComplete = event.complete;
           if (event.error) this.cardErrors = event.error.message;
           else this.cardErrors = null;
         })
@@ -53,6 +58,7 @@ export class CheckoutPaymentComponent implements OnInit {
         this.cardCvc = elements.create('cardCvc');
         this.cardCvc.mount(this.cardCvcElement?.nativeElement);
         this.cardCvc.on('change', event => {
+          this.cardCvcComplete = event.complete;
           if (event.error) this.cardErrors = event.error.message;
           else this.cardErrors = null;
         })
@@ -64,7 +70,14 @@ export class CheckoutPaymentComponent implements OnInit {
         this.cardCvc.mount(this.cardCvcElement?.nativeElement);
       }
     })
-  }  
+  }
+
+  get paymentFormComplete() {
+    return this.checkoutForm?.get('paymentForm')?.valid 
+    && this.cardNumberComplete
+    && this.cardExpiryComplete
+    && this.cardCvcComplete
+  }
 
   async submitOrder() {    
     this.loading = true;

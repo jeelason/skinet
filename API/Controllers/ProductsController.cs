@@ -27,6 +27,7 @@ namespace API.Controllers
             _productTypeRepo = productTypeRepo;
             
         }
+        [Cached(6000)]
         [HttpGet]
         public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
             [FromQuery]ProductSpecParams productParams) //use FromQuery because we are now using an object; no bodies using httpGet request. cant automatically bind.
@@ -42,6 +43,7 @@ namespace API.Controllers
             (productParams.PageIndex, productParams.PageSize, totalItems, data));
         }
         
+        [Cached(6000)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -57,12 +59,14 @@ namespace API.Controllers
           //this makes a nice flattened object in the json product call
         }
 
+        [Cached(6000)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands() 
         {
             return Ok (await _productBrandRepo.ListAllAsync());
-        }            
-    
+        }
+
+        [Cached(6000)]
         [HttpGet("Types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes() 
         {

@@ -15,27 +15,39 @@ export class ShopService {
   products: Product[] = [];
   brands: Brand[] = [];
   types: Type[] = [];
+  pagination?: Pagination<Product[]>;
+  shopParams = new ShopParams();
 
   constructor(private http: HttpClient) { }
 
-  getProducts(ShopParams: ShopParams) {  //make sure order is good here for component
+  getProducts() {  //make sure order is good here for component
     let params = new HttpParams();
     
-    if (ShopParams.brandId > 0) params = params.append('brandId', ShopParams.brandId);
-    if (ShopParams.typeId > 0) params = params.append('typeId', ShopParams.typeId);
-    params = params.append('sort', ShopParams.sort);
-    params = params.append('pageIndex', ShopParams.pageNumber); //in ProductSpecParams.cs we called it pageIndex
-    params = params.append('pageSize', ShopParams.pageSize);
-    if (ShopParams.search) params = params.append('search', ShopParams.search);
+    if (this.shopParams.brandId > 0) params = params.append('brandId', this.shopParams.brandId);
+    if (this.shopParams.typeId > 0) params = params.append('typeId', this.shopParams.typeId);
+    params = params.append('sort', this.shopParams.sort);
+    params = params.append('pageIndex', this.shopParams.pageNumber); //in ProductSpecParams.cs we called it pageIndex
+    params = params.append('pageSize', this.shopParams.pageSize);
+    if (this.shopParams.search) params = params.append('search', this.shopParams.search);
     
 
     return this.http.get<Pagination<Product[]>>(this.baseUrl + 'products', {params}).pipe(
       map(response => {
-        this.products = response.data;
+        this.products = [...this.products, ...response.data];
+        this.pagination = response;
         return response;
       })
     );
   }
+
+  setShopParams(params: ShopParams) {
+    this.shopParams = params;
+  }
+
+  getShopParams() {
+    return this.shopParams;
+  }
+
   // storing data inside the service instead of the component
   getProduct(id: number) {
     const product = this.products.find(p => p.id === id);

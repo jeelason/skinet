@@ -14,7 +14,7 @@ namespace API.Extensions
         {
             services.AddDbContext<StoreContext>(opt => 
             {
-                opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+                opt.UseNpgsql(config.GetConnectionString("DefaultConnection"));
             });  //how to add sqlite connection - see appsettings.Development.json
 
             services.AddSingleton<IConnectionMultiplexer>(c => 
